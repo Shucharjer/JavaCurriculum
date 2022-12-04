@@ -25,7 +25,7 @@ public class AntiEncryptor extends Thread {
                 }
                 out.print('\n');
             }
-            System.out.println("解密完成！");
+            System.out.println(fileIn + "解密完成！");
             out.flush();
             out.close();
         } catch (Exception e) {

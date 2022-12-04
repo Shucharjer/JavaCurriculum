@@ -26,7 +26,7 @@ public class Encryptor extends Thread {
                 }
                 out.print("\n");
             }
-            System.out.println("加密完成！");
+            System.out.println(fileInPath + "加密完成！");
             out.flush();
             out.close();
         } catch (Exception e) {
