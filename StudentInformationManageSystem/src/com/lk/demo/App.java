@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 public class App {
     public static ArrayList<Student> studentArrayList=new ArrayList<Student>();
     public static void main(String[] args) {
+        //TODO:使用数据库，目前的数据都是存在内存里的
         studentArrayList.add(new Student(123,"张三","男","计算机"));
         flog:
         while (true) {

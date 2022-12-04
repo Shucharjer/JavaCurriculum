@@ -11,18 +11,15 @@ public class EncryptorMain {
                 return;
             }
             else {
-                System.out.println("请输入需要加密的文本文件路径：");
+                System.out.println("请输入需要进行操作的文本文件路径：");
                 if (usage.equals("1")) {
                     Encryptor encryptor = new Encryptor();
                     encryptor.start();
-                    System.out.println("加密中……");
-                }
-                else {
+                } else {
                     AntiEncryptor antiEncryptor = new AntiEncryptor();
                     antiEncryptor.start();
-                    System.out.println("解密中……");
                 }
-                System.out.println("完成时会提示，请耐心等待");
+                System.out.println("完成时会提示，请耐心等待；你依旧可以对其它文件进行操作。");
             }
 
         }
