@@ -1,7 +1,5 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
+import java.util.Scanner;
 
 public class AntiEncryptor extends Thread {
     private final String fileInPath;
@@ -13,18 +11,23 @@ public class AntiEncryptor extends Thread {
         String fileOutPath = fileInPath.replace(".txt", "AntiEn.txt");
         File fileOut = new File(fileOutPath);
         try {
-            InputStream in = new FileInputStream(fileIn);
+            Scanner scanner = new Scanner(fileIn);
             PrintStream out = new PrintStream(fileOut);
-            int tempByte;
+            String str;
+            char c;
             fileOut.createNewFile();
-            while ((tempByte = in.read()) != -1) {
-                tempByte = (tempByte - 1919810) ^ 114514;
-                //这是一个一个一个解密啊
-                out.print((char)tempByte);
+            while (scanner.hasNextLine()) {
+                str = scanner.nextLine();
+                for (int i = 0; i < str.length(); i++) {
+                    c = str.charAt(i);
+                    c = (char)(c - 1919810 ^ 114514);
+                    out.print(c);
+                }
+                out.print('\n');
             }
             System.out.println("解密完成！");
+            out.flush();
             out.close();
-            in.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

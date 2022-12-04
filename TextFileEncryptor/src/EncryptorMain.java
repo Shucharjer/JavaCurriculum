@@ -14,13 +14,13 @@ public class EncryptorMain {
                 System.out.println("请输入需要加密的文本文件路径：");
                 Encryptor encryptor = new Encryptor();
                 encryptor.start();
-                System.out.println("加密中……请等待");
+                System.out.println("加密中……\n完成时会提示，请耐心等待");
             }
             else {
                 System.out.println("请输入需要解密的文本文件路径：");
                 AntiEncryptor antiEncryptor = new AntiEncryptor();
                 antiEncryptor.start();
-                System.out.println("解密中……请等待");
+                System.out.println("解密中……\n完成时会提示，请耐心等待");
             }
         }
     }
@@ -39,13 +39,12 @@ public class EncryptorMain {
         boolean flag;
         while (true) {
             input = scanner.nextLine();
-            //input = input.replace("\\","\\\\");
+            input = input.replace("\\","\\\\");
             if (new File(input).exists()) {
                 break;
             }
             System.out.println("寻找的文件不存在！请检查后重试。");
         }
-
         return input;
     }
 }
