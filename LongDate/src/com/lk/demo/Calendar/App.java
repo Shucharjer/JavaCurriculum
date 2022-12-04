@@ -9,21 +9,28 @@ import java.util.logging.SimpleFormatter;
 
 public class App {
     public static void main(String[] args) {
-           System.out.println("----万年历----");
-           System.out.println("请选择您需要的功能（请输入数字）：");
-           System.out.println("\"1\":查询当前时间信息");
-           System.out.println("\"2\":查询指定日期相关信息");
-           System.out.println("\"3\":天数计算器");
-           System.out.println("输入其余数字为退出系统");
-           Scanner scanner=new Scanner(System.in);
-           int select = scanner.nextInt();
-           switch (select){
-               case 1: currentMessage();
-                    break;
-               case 2: customMessage();
-                    break;
-               case 3:  dayCalculator();
-                    break;
+        System.out.println("----万年历----");
+        System.out.println("请选择您需要的功能（请输入数字）：");
+        System.out.println("\"1\":查询当前时间信息");
+        System.out.println("\"2\":查询指定日期相关信息");
+        System.out.println("\"3\":天数计算器");
+        System.out.println("\"4\":查询指定月份");
+        System.out.println("输入其余数字为退出系统");
+        Scanner scanner=new Scanner(System.in);
+        int select = scanner.nextInt();
+        switch (select){
+            case 1:
+                currentMessage();
+                break;
+            case 2:
+                customMessage();
+                break;
+            case 3:
+                dayCalculator();
+                break;
+            case 4:
+                monthMessage();
+                break;
            }
     }
 
@@ -85,5 +92,47 @@ public class App {
     private static String getDayOfWeek(int dayofweek) {
         String[] strings = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
         return strings[dayofweek-1];
+    }
+    private static void monthMessage() {
+        //1900
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(1900, 1, 1);
+        //to be cal calender
+        System.out.println("请输入你想查询的月份(格式为某年某月)：");
+        Scanner scanner = new Scanner(System.in);
+        String string = scanner.nextLine();
+        String strs = string.substring(0, string.length() - 1);
+        String[] str = strs.split("年");
+        int year = Integer.parseInt(str[0]);
+        int month = Integer.parseInt(str[1]);
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, 1);
+        cal.set(Calendar.MONTH, month - 1);
+        //cal
+        int day = getDaysBetween(cal, calendar);
+        day %= 7;
+        //print
+        System.out.println("日\t一\t二\t三\t四\t五\t六");
+        for (int i = 0; i < day; i++) {
+            System.out.print("\t");
+        }
+        for (int i = 1; i <= cal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+            System.out.print(i + "\t");;
+            if ((i + day ) % 7 == 0) {
+                System.out.println();
+            }
+        }
+    }
+    public static int getDaysBetween(Calendar day1,Calendar day2){
+        int days = day1.get(Calendar.DAY_OF_YEAR);
+        int y1 = day1.get(Calendar.YEAR);
+        if(day2.get(Calendar.YEAR) != y1){
+            day2 = (Calendar)day2.clone();
+            do{
+                days += day2.getActualMaximum(Calendar.DAY_OF_YEAR);
+                day2.add(Calendar.YEAR, 1);
+            }while(day2.get(Calendar.YEAR) != y1);
+        }
+        return days;
     }
 }
