@@ -10,18 +10,21 @@ public class EncryptorMain {
             if (usage == null) {
                 return;
             }
-            else if (usage.equals("1")) {
-                System.out.println("请输入需要加密的文本文件路径：");
-                Encryptor encryptor = new Encryptor();
-                encryptor.start();
-                System.out.println("加密中……\n完成时会提示，请耐心等待");
-            }
             else {
-                System.out.println("请输入需要解密的文本文件路径：");
-                AntiEncryptor antiEncryptor = new AntiEncryptor();
-                antiEncryptor.start();
-                System.out.println("解密中……\n完成时会提示，请耐心等待");
+                System.out.println("请输入需要加密的文本文件路径：");
+                if (usage.equals("1")) {
+                    Encryptor encryptor = new Encryptor();
+                    encryptor.start();
+                    System.out.println("加密中……");
+                }
+                else {
+                    AntiEncryptor antiEncryptor = new AntiEncryptor();
+                    antiEncryptor.start();
+                    System.out.println("解密中……");
+                }
+                System.out.println("完成时会提示，请耐心等待");
             }
+
         }
     }
     private static String getUsage() {
