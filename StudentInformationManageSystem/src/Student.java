@@ -1,17 +1,14 @@
-package com.lk.demo;
-
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Student {
     private int id;
     private String name;
     private String gender;
     private String major;
-
-
     public Student() {
     }
-
+    //id,name,gender,major四个字段
     public Student(int id, String name, String gender, String major) {
         this.id = id;
         this.name = name;
