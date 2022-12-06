@@ -24,9 +24,10 @@ public class Actions {
         }
     }
     public static class DatabaseAction {
-        public static Connection connection = null;
-        public static Statement statement = null;
-        public static ResultSet resultSet = null;
+        private static Connection connection = null;
+        private static Statement statement = null;
+        private static ResultSet resultSet = null;
+        //TODO:给MySQL建一个表
         public static void connect() {
             String url = "jdbc:mysql://localhost:3306/students";
             String user = "admin";
@@ -42,6 +43,9 @@ public class Actions {
         }
         public static void close() {
             try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
                 if (statement != null) {
                     statement.close();
                 }
