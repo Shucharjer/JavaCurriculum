@@ -24,21 +24,8 @@ public class Actions {
         private static Connection connection = null;
         private static Statement statement = null;
         private static ResultSet resultSet = null;
-        private static void createTable() {
-            String sql = "CREATE TABLE studentInfo " +
-                    "(id INTEGER not NULL, " +
-                    "name VARCHAR(32), " +
-                    "gender VARCHAR(16), " +
-                    "major VARCHAR(32))";
-            try {
-                statement.executeUpdate(sql);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         public static void connect() {
-            String url = "jdbc:mysql://localhost:3306/studentInfo?useSSL=false&serverTimezone=UTC";
+            String url = "jdbc:mysql://localhost:3306/studentInfo?useSSL=false&serverTimezone=UTC+8";
             String user = "root";
             String pass = "root";
             //使用的是MySQL8.0.16，部分内容略有变动
@@ -77,8 +64,7 @@ public class Actions {
             String gender = InputScanner.getString();
             System.out.println("请输入需要增加的学生的主修：");
             String major = InputScanner.getString();
-            Student student = new Student(id, name, gender, major);
-            String sql = "insert into info values (" + student.getId() + ", '" + student.getName() + "', '" + student.getGender() + "', '" + student.getMajor() + "');";
+            String sql = "insert into info values (" + id + ", '" + name + "', '" + gender + "', '" + major + "');";
             try {
                 int flag = statement.executeUpdate(sql);
                 if (flag > 0) {
