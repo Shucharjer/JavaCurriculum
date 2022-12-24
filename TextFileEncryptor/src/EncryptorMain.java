@@ -36,7 +36,6 @@ public class EncryptorMain {
     public static String getPath() {
         Scanner scanner = new Scanner(System.in);
         String input;
-        boolean flag;
         while (true) {
             input = scanner.nextLine();
             input = input.replace("\\","\\\\");

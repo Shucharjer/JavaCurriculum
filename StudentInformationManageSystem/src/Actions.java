@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 public class Actions {
     public static class InputScanner {
@@ -27,13 +24,26 @@ public class Actions {
         private static Connection connection = null;
         private static Statement statement = null;
         private static ResultSet resultSet = null;
-        //TODO:给MySQL建一个表
-        public static void connect() {
-            String url = "jdbc:mysql://localhost:3306/students";
-            String user = "admin";
-            String pass = "admin";
+        private static void createTable() {
+            String sql = "CREATE TABLE studentInfo " +
+                    "(id INTEGER not NULL, " +
+                    "name VARCHAR(32), " +
+                    "gender VARCHAR(16), " +
+                    "major VARCHAR(32))";
             try {
-                Class.forName("com.mysql.jdbc.Driver");
+                statement.executeUpdate(sql);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        public static void connect() {
+            String url = "jdbc:mysql://localhost:3306/studentInfo?useSSL=false&serverTimezone=UTC";
+            String user = "root";
+            String pass = "root";
+            //使用的是MySQL8.0.16，部分内容略有变动
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection(url, user, pass);
                 statement = connection.createStatement();
             }
@@ -58,6 +68,7 @@ public class Actions {
             }
         }
         public static void add() {
+            connect();
             System.out.println("请输入需要增加的学生的学号：");
             int id = InputScanner.getInt();
             System.out.println("请输入需要增加的学生的姓名：");
@@ -67,7 +78,7 @@ public class Actions {
             System.out.println("请输入需要增加的学生的主修：");
             String major = InputScanner.getString();
             Student student = new Student(id, name, gender, major);
-            String sql = "insert into studentInfo values (" + student.getId() + ", '" + student.getName() + "', '" + student.getGender() + "', '" + student.getMajor() + "')";
+            String sql = "insert into info values (" + student.getId() + ", '" + student.getName() + "', '" + student.getGender() + "', '" + student.getMajor() + "');";
             try {
                 int flag = statement.executeUpdate(sql);
                 if (flag > 0) {
@@ -80,12 +91,15 @@ public class Actions {
             catch (Exception e) {
                 e.printStackTrace();
             }
+            close();
         }
         public static void delete() {
+            connect();
             System.out.println("请输入要删除学生信息的学号：");
             int id = InputScanner.getInt();
-            String sql = "delete from studentInfo where id = '" + id + "'";
+            String sql = "delete from info where id = '" + id + "';";
             try {
+                statement = connection.createStatement();
                 int flag = statement.executeUpdate(sql);
                 if (flag > 0 ) {
                     System.out.println("该学生信息已删除！");
@@ -97,8 +111,10 @@ public class Actions {
             catch (Exception e) {
                 e.printStackTrace();
             }
+            close();
         }
         public static void update() {
+            connect();
             System.out.println("请输入需要更改信息的学生的学号：");
             int idOri = InputScanner.getInt();
             System.out.println("请输入需要更改信息的内容：");
@@ -118,26 +134,27 @@ public class Actions {
                 case 1:
                     System.out.println("请输入学号：");
                     int id = InputScanner.getInt();
-                    sql = "update studentInfo set id = '" + id + "' where id = '" + idOri + "'";
+                    sql = "update info set id = '" + id + "' where id = '" + idOri + "';";
                     break;
                 case 2:
                     System.out.println("请输入姓名：");
                     String name = InputScanner.getString();
-                    sql = "update studentInfo set name = '" + name + "' where id = '" + idOri + "'";
+                    sql = "update info set name = '" + name + "' where id = '" + idOri + "';";
                     break;
                 case 3:
                     //真的存在学生更改性别的情况吗（雾
                     System.out.println("请输入性别：");
                     String gender = InputScanner.getString();
-                    sql = "update studentInfo set gender = '" + gender + "' where id = '" + idOri + "'";
+                    sql = "update info set gender = '" + gender + "' where id = '" + idOri + "';";
                     break;
                 default:
                     System.out.println("请输入主修：");
                     String major = InputScanner.getString();
-                    sql = "update studentInfo set major = '" + major + "' where id = '" + idOri + "'";
+                    sql = "update info set major = '" + major + "' where id = '" + idOri + "';";
                     break;
             }
             try {
+                statement = connection.createStatement();
                 int flag = statement.executeUpdate(sql);
                 if (flag > 0) {
                     System.out.println("该学生信息已更改！");
@@ -149,8 +166,10 @@ public class Actions {
             catch (Exception e) {
                 e.printStackTrace();
             }
+            close();
         }
         public static void find() {
+            connect();
             String sql;
             System.out.println("请输入查询方式：");
             System.out.println("\"1\":学号");
@@ -167,18 +186,19 @@ public class Actions {
                 case 1:
                     System.out.println("请输入学号：");
                     int id = InputScanner.getInt();
-                    sql = "select * from studentInfo where id = '" + id + "'";
+                    sql = "select * from info where id = '" + id + "';";
                     break;
                 case 2:
                     System.out.println("请输入姓名：");
                     String name = InputScanner.getString();
-                    sql = "select * from studentInfo where name = '" + name + "'";
+                    sql = "select * from info where name = '" + name + "';";
                     break;
                 default:
-                    sql = "select * from studentInfo";
+                    sql = "select * from info;";
                     break;
             }
             try {
+                statement = connection.createStatement();
                 resultSet = statement.executeQuery(sql);
                 while (resultSet.next()) {
                     System.out.println("学号：" + resultSet.getInt("id") + "\t");
@@ -190,6 +210,7 @@ public class Actions {
             catch (Exception e) {
                 e.printStackTrace();
             }
+            close();
         }
     }
 }

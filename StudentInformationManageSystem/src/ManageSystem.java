@@ -1,8 +1,7 @@
 public class ManageSystem {
     public static void main(String[] args) {
-        //TODO:使用数据库，目前的数据都是存在内存里的
         boolean flag = true;
-        Actions.DatabaseAction.connect();
+        //Actions.DatabaseAction.connect();
         while (flag) {
             System.out.println("-----学生管理系统----");
             System.out.println("请选择需要功能（填写数字）：");
@@ -35,6 +34,6 @@ public class ManageSystem {
             }
         }
         Actions.InputScanner.scanner.close();
-        Actions.DatabaseAction.close();
+        //Actions.DatabaseAction.close();
     }
 }
