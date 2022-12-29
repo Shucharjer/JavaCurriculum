@@ -28,6 +28,7 @@ public class App {
 
 
 
+
     private static void dayCalculator() {
         SimpleDateFormat simpleFormatter=new SimpleDateFormat("yyyy年MM月dd日");
         Scanner scanner = new Scanner(System.in);
