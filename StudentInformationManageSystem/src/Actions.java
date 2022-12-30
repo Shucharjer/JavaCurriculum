@@ -25,7 +25,7 @@ public class Actions {
         private static Statement statement = null;
         private static ResultSet resultSet = null;
         public static void connect() {
-            String url = "jdbc:mysql://localhost:3306/studentInfo?useSSL=false&serverTimezone=UTC+8";
+            String url = "jdbc:mysql://localhost:3306/studentInfo?useSSL=false&serverTimezone=UTC";
             String user = "root";
             String pass = "root";
             //使用的是MySQL8.0.16，部分内容略有变动
